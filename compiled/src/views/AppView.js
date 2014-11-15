@@ -22,7 +22,12 @@
     };
 
     AppView.prototype.initialize = function() {
-      return this.render();
+      this.render();
+      return this.model.on('change', (function(_this) {
+        return function() {
+          return _this.render();
+        };
+      })(this));
     };
 
     AppView.prototype.render = function() {

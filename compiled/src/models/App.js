@@ -16,18 +16,20 @@
       this.set('playerHand', deck.dealPlayer());
       this.set('dealerHand', deck.dealDealer());
       playerHand = this.get('playerHand');
-      playerHand.on('add', function() {
-        if (playerHand.minScore() >= 21) {
-          return alert("end game");
-        }
-      });
-      return playerHand.on('sort', function() {});
-    };
-
-    App.prototype.calcMinScore = function() {
-      if (playerHand.minScore() >= 21) {
-        return alert("end game");
-      }
+      playerHand.on('add', (function(_this) {
+        return function() {
+          if (playerHand.minScore() >= 21) {
+            alert("game over");
+            console.log(_this);
+            return _this.initialize();
+          }
+        };
+      })(this));
+      return playerHand.on('stand', (function(_this) {
+        return function() {
+          return alert("stand called");
+        };
+      })(this));
     };
 
     return App;

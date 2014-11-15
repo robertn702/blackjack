@@ -33,7 +33,9 @@
       }, 0);
     };
 
-    Hand.prototype.stand = function() {};
+    Hand.prototype.stand = function() {
+      return this.trigger('stand', this);
+    };
 
     Hand.prototype.scores = function() {
       return [this.minScore(), this.minScore() + 10 * this.hasAce()];

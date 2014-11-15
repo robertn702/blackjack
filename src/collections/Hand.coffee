@@ -15,6 +15,7 @@ class window.Hand extends Backbone.Collection
   , 0
 
   stand: ->
+    @trigger('stand', this)
 
   scores: ->
     # The scores are an array of potential scores.

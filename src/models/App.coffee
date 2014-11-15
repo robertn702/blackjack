@@ -8,15 +8,11 @@ class window.App extends Backbone.Model
     # this.get('playerHand').on('change');
     playerHand = @get 'playerHand'
 
-    playerHand.on 'add', ->
+    playerHand.on 'add', =>
       if playerHand.minScore() >= 21
-        alert "end game"
+        alert "game over"
+        console.log(@)
+        @initialize()
 
-
-    playerHand.on 'sort', ->
-    # if playerHand.minScore() >= 21
-    #   alert "end game"
-
-  calcMinScore: ->
-    if playerHand.minScore() >= 21
-      alert "end game"
+    playerHand.on 'stand', =>
+      alert "stand called"
