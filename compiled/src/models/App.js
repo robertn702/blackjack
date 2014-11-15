@@ -11,25 +11,47 @@
     }
 
     App.prototype.initialize = function() {
-      var deck, playerHand;
+      var dealerHand, deck, playerHand;
       this.set('deck', deck = new Deck());
       this.set('playerHand', deck.dealPlayer());
       this.set('dealerHand', deck.dealDealer());
       playerHand = this.get('playerHand');
+      dealerHand = this.get('dealerHand');
       playerHand.on('add', (function(_this) {
         return function() {
-          if (playerHand.minScore() >= 21) {
-            alert("game over");
-            console.log(_this);
-            return _this.initialize();
+          var result;
+          if (playerHand.minScore() > 21) {
+            result = "You lose...";
+            if (confirm("" + result + " Start new game?'")) {
+              return _this.initialize();
+            }
           }
         };
       })(this));
       return playerHand.on('stand', (function(_this) {
         return function() {
-          return alert("stand called");
+          dealerHand.at(0).flip();
+          while (Math.max.apply(null, dealerHand.scores()) < 17) {
+            dealerHand.hit();
+            if (Math.max.apply(null, dealerHand.scores()) > 21) {
+              _this.endGame('You lose...');
+            }
+          }
+          if (playerHand.minScore() === Math.max.apply(null, dealerHand.scores())) {
+            return _this.endGame("It's a draw,");
+          } else if (playerHand.minScore() < Math.max.apply(null, dealerHand.scores())) {
+            return _this.endGame('You lose...');
+          } else {
+            return _this.endGame("You win!");
+          }
         };
       })(this));
+    };
+
+    App.prototype.endGame = function(result) {
+      if (confirm("" + result + " Start new game?")) {
+        return this.initialize();
+      }
     };
 
     return App;
