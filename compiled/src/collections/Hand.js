@@ -18,7 +18,10 @@
     };
 
     Hand.prototype.hit = function() {
-      return this.add(this.deck.pop());
+      var poppedCard;
+      poppedCard = this.deck.pop();
+      this.add(poppedCard);
+      return poppedCard;
     };
 
     Hand.prototype.hasAce = function() {
